@@ -12,17 +12,20 @@ const initialState = {
 export const CreateUser = createAsyncThunk(
   "createuser",
   async (user, { getState, dispatch }) => {
-    try {
-      const userLoginCheck = await axiosInstance.post("/auth/login/", user);
-      if (userLoginCheck?.status === 401) {
-        const res = await axiosInstance.post("/users/", user);
+    try{
+      const allUser = await axiosInstance.get("/users")
+      console.log(allUser?.data,"allUser")
+      const checkEmail = allUser?.data.find((data)=>data?.email === user?.email)
+      if(!checkEmail){
+        const res = await axiosInstance.post("/users", {...user,avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867"});
         return res;
       }
-      throw {
-        message: "User Already Exist",
-      };
-    } catch (err) {
-      throw err;
+      else{
+        throw {message:"User Already Exist"}
+      }
+    }
+    catch(err){
+      throw err
     }
   }
 );
