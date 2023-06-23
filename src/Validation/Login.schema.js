@@ -15,3 +15,11 @@ export const LoginSchema = yup.object().shape({
     password:yup.string().trim().required(ValidationText?.error?.password),
 })
 
+export const ForgetPasswordSchema = yup.object().shape({
+    email:yup.string().trim().required(ValidationText?.error?.email),
+})
+
+export const CreateCategorySchema = yup.object().shape({
+    name:yup.string().trim().required(ValidationText?.error?.name),
+    image:yup.mixed().required(ValidationText?.error?.image)
+})

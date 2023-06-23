@@ -1,6 +1,7 @@
 /* eslint-disable no-throw-literal */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../Helper/Helper";
+import axios from "axios";
 
 const initialState = {
   status: "idle",
@@ -14,10 +15,15 @@ export const CreateUser = createAsyncThunk(
   async (user, { getState, dispatch }) => {
     try{
       const allUser = await axiosInstance.get("/users")
-      console.log(allUser?.data,"allUser")
+      // console.log(allUser?.data,"allUser")
       const checkEmail = allUser?.data.find((data)=>data?.email === user?.email)
       if(!checkEmail){
-        const res = await axiosInstance.post("/users", {...user,avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867"});
+       
+        console.log(user?.avatar,"avatar")
+        const file = await axiosInstance.post("/files/upload",user?.avatar)
+        console.log(file?.data,"file")
+        const res = await axiosInstance.post("/users", {...user,avatar:file?.data?.location});
+        dispatch(LoginUser(user))
         return res;
       }
       else{
@@ -47,7 +53,7 @@ export const LoginUser = createAsyncThunk(
       const res = await axiosInstance.post("/auth/login/", user);
       return res;
     } catch (err) {
-      throw err;
+      throw {message:"Password or Emial id is wrong"};
     }
   }
 );
@@ -88,7 +94,26 @@ export const CurrentUserUpdate = createAsyncThunk(
     }
   );
 
-
+  export const ForgetPasswordUser = createAsyncThunk(
+    "forgetpassword",
+    async (user, { getState }) => {
+      try{
+        const allUser = await axiosInstance.get("/users")
+        console.log(allUser?.data,"allUser")
+        const checkEmail = allUser?.data.find((data)=>data?.email === user?.email)
+        if(checkEmail){
+          await axios.post("https://60fd-182-79-73-22.ngrok-free.app/sendMail",checkEmail)
+          throw {message:`Your password is sent to your register Email`}
+        }
+        else{
+          throw {message:"User Does Not Exist"}
+        }
+      }
+      catch(err){
+        throw err
+      }
+    }
+  );
 
 
 

@@ -6,7 +6,7 @@ export default {
         email:"Enter Email",
         password:"Enter Password",
         avatar:"Enter Avatar Image",
-      
+        image:"Enter Image"
     },
     warn:{},
     info:{}

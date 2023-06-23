@@ -25,8 +25,21 @@ export default function SignUp() {
     resolver: yupResolver(UserSchema),
   });
 
+  const getBase64 = (file, cb) => {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+        cb(reader.result)
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+}
+
   const FormSubmit =(data)=>{
-    dispatch(CreateUser(data)).unwrap().then(()=>navigate("/signin")).catch((err)=>alert(err?.message))
+    var img = ""
+    getBase64(data?.avatar,(result)=>{img=result;})
+    dispatch(CreateUser({...data,avatar:img})).unwrap().then(()=>navigate("/signin")).catch((err)=>alert(err?.message))
     reset()
   }
   return (
@@ -68,7 +81,7 @@ export default function SignUp() {
           </Grid>
           <Grid item xs={12}>
             <Box className="form_group">
-              <input type="file" {...register} onChange={(e)=>setValue("avatar",e.target.value)}/>
+              <input type="file" {...register} onChange={(e)=>setValue("avatar",e.target.files[0])}/>
               <ErrorText text={errors?.avatar?.message}/>
             </Box>
           </Grid>

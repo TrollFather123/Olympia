@@ -12,6 +12,9 @@ import Home from "../Pages/Home";
 import { LoginChecker } from "../Validation/LoginChecker";
 import Details from "../Pages/Details";
 import UserEditDetails from "../Pages/UserEditDetails";
+import ForgetPassword from "../Pages/ForgetPassword";
+import Products from "../Pages/Products";
+import Category from "../Pages/Category";
 
 export default function Routing() {
   const PublicRoutes = [
@@ -22,6 +25,10 @@ export default function Routing() {
     {
       name: <SignUp />,
       path: "/signup",
+    },
+    {
+      name: <ForgetPassword />,
+      path: "/forget-password",
     },
   ];
   const PrivateRoutes = [
@@ -34,9 +41,17 @@ export default function Routing() {
       path: "/details",
     },
     {
-        name:<UserEditDetails/>,
-        path:"/user-details-edit"
-    }
+      name: <UserEditDetails />,
+      path: "/user-details-edit",
+    },
+    {
+      name: <Products />,
+      path: "/products",
+    },
+    {
+      name: <Category />,
+      path: "/category/:id",
+    },
   ];
 
   function AuthRequire({ children, redirectTo }) {
