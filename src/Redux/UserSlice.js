@@ -15,14 +15,10 @@ export const CreateUser = createAsyncThunk(
   async (user, { getState, dispatch }) => {
     try{
       const allUser = await axiosInstance.get("/users")
-      // console.log(allUser?.data,"allUser")
+      console.log(allUser?.data,"allUser")
       const checkEmail = allUser?.data.find((data)=>data?.email === user?.email)
       if(!checkEmail){
-       
-        console.log(user?.avatar,"avatar")
-        const file = await axiosInstance.post("/files/upload",user?.avatar)
-        console.log(file?.data,"file")
-        const res = await axiosInstance.post("/users", {...user,avatar:file?.data?.location});
+        const res = await axiosInstance.post("/users", {...user,avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867"});
         dispatch(LoginUser(user))
         return res;
       }
@@ -53,7 +49,7 @@ export const LoginUser = createAsyncThunk(
       const res = await axiosInstance.post("/auth/login/", user);
       return res;
     } catch (err) {
-      throw {message:"Password or Emial id is wrong"};
+      throw err;
     }
   }
 );

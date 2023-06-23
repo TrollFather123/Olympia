@@ -25,21 +25,19 @@ export default function SignUp() {
     resolver: yupResolver(UserSchema),
   });
 
-  const getBase64 = (file, cb) => {
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-        cb(reader.result)
-    };
-    reader.onerror = function (error) {
-        console.log('Error: ', error);
-    };
-}
+//   const getBase64 = (file, cb) => {
+//     let reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = function () {
+//         cb(reader.result)
+//     };
+//     reader.onerror = function (error) {
+//         console.log('Error: ', error);
+//     };
+// }
 
   const FormSubmit =(data)=>{
-    var img = ""
-    getBase64(data?.avatar,(result)=>{img=result;})
-    dispatch(CreateUser({...data,avatar:img})).unwrap().then(()=>navigate("/signin")).catch((err)=>alert(err?.message))
+    dispatch(CreateUser(data)).unwrap().then(()=>navigate("/signin")).catch((err)=>alert(err?.message))
     reset()
   }
   return (
