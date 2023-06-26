@@ -14,6 +14,7 @@ export const GetProduct = createAsyncThunk(
   "getproduct",
   async (page = 1, { getState, dispatch }) => {
     const state = getState().product
+    console.log(state)
     try {
       const allProduct = await axiosInstance.get(`/products?offset=${(page - 1) * 10}&limit=${state?.limit}`);
       return {data:allProduct?.data,page};

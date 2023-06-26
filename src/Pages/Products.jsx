@@ -103,7 +103,14 @@ export default function Products() {
 
   const PageLoading = useCallback((page) => {
     dispatch(GetProduct(page));
+    
   }, []);
+
+  // const PageLoadingWithFilters = useCallback((page) => {
+  //   dispatch(FilterByAll({title:title,id:category,value:value,page:page}))
+    
+  // }, []);
+
 
   const CategoryFilter = (e) => {
     setCategory(e.target.value);
@@ -114,6 +121,8 @@ export default function Products() {
     setValue(newValue);
     // dispatch(FilterByPriceRange(value));
   };
+
+  
 
   return (
     <Wrapper>
@@ -179,8 +188,7 @@ export default function Products() {
                 )}
               </Grid>
             }
-            initialLoad={false}
-          >
+            initialLoad={false}>
             <Grid container spacing={4}>
               {listedData.map((data, index) => (
                 <Grid item md={4} xs={12}>
@@ -212,6 +220,7 @@ export default function Products() {
               ))}
             </Grid>
           </InfiniteScroll>
+       
         </ProductWrapper>
       </Container>
     </Wrapper>

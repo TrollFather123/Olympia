@@ -4,6 +4,8 @@ import axiosInstance from "../Helper/Helper"
 const initialState = {
     status:"idle",
     filterProductList:[],
+    // limit:10,
+    // page:0
     // filterProductListByCategory:[],
 }
 
@@ -33,8 +35,10 @@ export const FilterByPriceRange = createAsyncThunk(
 export const FilterByAll = createAsyncThunk(
     "filterbyall",
     async({title,id,value},{getState,dispatch})=>{
-        let res = await axiosInstance.get(`products/?title=${title}&price_min=${value[0]}&price_max=${value[1]}&categoryId=${id}`)
-        return res
+        const state = getState().product;
+     
+        let allProduct = await axiosInstance.get(`products/?title=${title}&price_min=${value[0]}&price_max=${value[1]}&categoryId=${id}`)
+        return allProduct;
     }
 )
 export const FilterSlice = createSlice({
@@ -97,6 +101,14 @@ export const FilterSlice = createSlice({
                 state.filterProductList = payload?.data
                 state.status = "idle"
             }
+            // console.log(state?.page,"state?.page")
+            // console.log(payload?.page,"payload?.page")
+            // if(state?.page <= payload?.page){
+            //     state.filterProductList=[]
+            //     // state.page = 0
+            //     state.filterProductList =[...state.filterProductList,...payload?.data]
+            //     state.page = payload?.page
+            //   }
         })
         .addCase(FilterByAll.rejected,(state,action)=>{
             state.status = "idle"
