@@ -4,7 +4,7 @@ import axiosInstance from "../Helper/Helper"
 const initialState = {
     status:"idle",
     filterProductList:[],
-    filterProductListByCategory:[],
+    // filterProductListByCategory:[],
 }
 
 export const FilterByTitle = createAsyncThunk(
@@ -26,6 +26,14 @@ export const FilterByPriceRange = createAsyncThunk(
     "filterbypricerange",
     async(value,{dispatch,getState})=>{
         let res = await axiosInstance.get(`products/?price_min=${value[0]}&price_max=${value[1]}`)
+        return res
+    }
+)
+
+export const FilterByAll = createAsyncThunk(
+    "filterbyall",
+    async({title,id,value},{getState,dispatch})=>{
+        let res = await axiosInstance.get(`products/?title=${title}&price_min=${value[0]}&price_max=${value[1]}&categoryId=${id}`)
         return res
     }
 )
@@ -55,7 +63,7 @@ export const FilterSlice = createSlice({
         })
         .addCase(FilterByCategory.fulfilled,(state,{payload})=>{
             if(payload?.status === 200){
-                state.filterProductListByCategory = payload?.data
+                state.filterProductList = payload?.data
                 state.status = "idle"
             }
         })
@@ -75,6 +83,22 @@ export const FilterSlice = createSlice({
             }
         })
         .addCase(FilterByPriceRange.rejected,(state,action)=>{
+            state.status = "idle"
+        })
+
+
+        // filter by all sets
+
+        .addCase(FilterByAll.pending,(state,action)=>{
+            state.status = "pending"
+        })
+        .addCase(FilterByAll.fulfilled,(state,{payload})=>{
+            if(payload?.status === 200){
+                state.filterProductList = payload?.data
+                state.status = "idle"
+            }
+        })
+        .addCase(FilterByAll.rejected,(state,action)=>{
             state.status = "idle"
         })
     }

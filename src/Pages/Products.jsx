@@ -23,58 +23,69 @@ import "slick-carousel/slick/slick-theme.css";
 import styled from "@emotion/styled";
 import InfiniteScroll from "react-infinite-scroller";
 import { Stack } from "@mui/system";
-import { FilterByCategory, FilterByPriceRange, FilterByTitle } from "../Redux/FilterSlice";
+import {
+  FilterByAll,
+  FilterByCategory,
+  FilterByPriceRange,
+  FilterByTitle,
+} from "../Redux/FilterSlice";
 import { GetCategory } from "../Redux/CategorySlice";
 import RangeSlider from "../Component/ProductCard/RangeSlider/RangeSlider";
 
 const ProductWrapper = styled(Box)`
-.filter_head{
-  min-width: 200px;
-  display: flex;
-  align-items: center;
-  button{
-    margin-left: 20px;
+  .filter_head {
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+  
   }
-}
+  .filter_head:not(:last-child) {
+      margin-right: 20px;
+    }
+    .each_product{
+      box-shadow: 0 0 15px rgba(0,0,0,.15);
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    .each_product .product_content{
+      padding: 30px 15px;
+    }
 `;
 
 export default function Products() {
-  const [title ,setTitle] = useState("")
-  const [listedData , setListedData] = useState([])
-  const [category, setCategory] = React.useState('');
+  const [title, setTitle] = useState("");
+  const [listedData, setListedData] = useState([]);
+  const [category, setCategory] = React.useState("");
   const [value, setValue] = React.useState([10, 500]);
   const dispatch = useDispatch();
   const product_data = useSelector((s) => s.product);
-  const {filterProductList,filterProductListByCategory} = useSelector((s)=> s.filters);
-  const {categoryList} = useSelector((s)=>s.category)
+  const { filterProductList, filterProductListByCategory } = useSelector(
+    (s) => s.filters
+  );
+  const { categoryList } = useSelector((s) => s.category);
   // console.log(product_data?.productList, "product_data");
   // console.log(filterProductList,"filterProductList")
-  console.log(listedData,"listedData")
-
-
-  useEffect(()=>{
-    dispatch(FilterByCategory(category))
-      dispatch(GetProduct());
-      dispatch(GetCategory())
-  
-      // setListedData(product_data?.productList)
-  },[category, dispatch])
+  console.log(listedData, "listedData");
 
   useEffect(() => {
-    if(filterProductList.length){
-     
-      setListedData(filterProductList)
-    }
-    else if(filterProductListByCategory.length){
-      setListedData(filterProductListByCategory)
-      // setListedData(filterProductListByCategory)
-    }
-    else{
-      setListedData(product_data?.productList)
-    }
-  }, [filterProductList,product_data?.productList,filterProductListByCategory]);
+    // dispatch(FilterByCategory(category))
 
+    dispatch(GetProduct());
+    dispatch(GetCategory());
+  }, [category, dispatch]);
 
+  useEffect(() => {
+    if (filterProductList.length) {
+      setListedData(filterProductList);
+    }
+    // else if(filterProductListByCategory.length){
+    //   setListedData(filterProductListByCategory)
+    //   // setListedData(filterProductListByCategory)
+    // }
+    else {
+      setListedData(product_data?.productList);
+    }
+  }, [filterProductList, product_data?.productList]);
 
   const settings = {
     dots: true,
@@ -94,56 +105,64 @@ export default function Products() {
     dispatch(GetProduct(page));
   }, []);
 
-  const CategoryFilter = (e) =>{
-    setCategory(e.target.value)
+  const CategoryFilter = (e) => {
+    setCategory(e.target.value);
     // dispatch(FilterByCategory(category))
-    
-  }
-
- 
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    dispatch(FilterByPriceRange(value))
+    // dispatch(FilterByPriceRange(value));
   };
-
-
-
 
   return (
     <Wrapper>
       <Container fixed>
         <ProductWrapper>
-          <Stack direction={"row"} sx={{marginBottom:"50px"}}>
-          <Box className="filter_head">
-          <TextField label="Filter By Name" variant="outlined" onChange={(e)=>setTitle(e.target.value)}/>
-          <Button variant="contained" onClick={()=> dispatch(FilterByTitle(title))}>Submit</Button>
-          </Box>
-          <Box className="filter_head">
-          <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Category</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={category}
-          label="Category"
-          onChange={CategoryFilter}
-        >
-          {
-            categoryList.map((data,index)=>(
-              <MenuItem value={data?.id} key={index}>{data?.name}</MenuItem>
-            ))
-          }
-
-        </Select>
-      </FormControl>
-         
-          </Box>
-          <Box className="filter_head">
-          <RangeSlider value={value} handleChange={handleChange}/>
-          </Box>
+        <Typography variant="h2" sx={{marginBottom:"30px"}}>Filters</Typography>
+          <Stack direction={"row"} sx={{ marginBottom: "50px" }}>
+           
+            <Box className="filter_head">
+              <TextField
+                label="Filter By Name"
+                variant="outlined"
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              {/* <Button
+                variant="contained"
+                onClick={() => dispatch(FilterByTitle(title))}
+              >
+                Submit
+              </Button> */}
+            </Box>
+            <Box className="filter_head">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={category}
+                  label="Category"
+                  onChange={CategoryFilter}
+                >
+                  {categoryList.map((data, index) => (
+                    <MenuItem value={data?.id} key={index}>
+                      {data?.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <Box className="filter_head">
+              <RangeSlider value={value} handleChange={handleChange} />
+            </Box>
+            <Box className="filter_head">
+              <Button variant="contained" onClick={()=>dispatch(FilterByAll({title:title,id:category,value:value}))}>
+                Submit Filters
+              </Button>
+            </Box>
           </Stack>
-       
+
           <InfiniteScroll
             pageStart={0}
             loadMore={PageLoading}
