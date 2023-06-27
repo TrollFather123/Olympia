@@ -15,6 +15,11 @@ import UserEditDetails from "../Pages/UserEditDetails";
 import ForgetPassword from "../Pages/ForgetPassword";
 import Products from "../Pages/Products";
 import Category from "../Pages/Category";
+import Dashboard from "../Pages/Dashboard";
+import DashboardProduct from "../Pages/DashboardProduct";
+import DashboardCategory from "../Pages/DashboardCategory";
+import CreateProduct from "../Pages/CreateProduct";
+import ProductDetails from "../Pages/ProductDetails";
 
 export default function Routing() {
   const PublicRoutes = [
@@ -51,6 +56,26 @@ export default function Routing() {
     {
       name: <Category />,
       path: "/category/:id",
+    },
+    {
+      name: <Dashboard />,
+      path: "/dashboard",
+    },
+    {
+      name: <DashboardProduct />,
+      path: "/dashboard/products",
+    },
+    {
+      name: <DashboardCategory />,
+      path: "/dashboard/categories",
+    },
+    {
+      name: <CreateProduct />,
+      path: "/dashboard/createproduct",
+    },
+    {
+      name: <ProductDetails />,
+      path: "/dashboard/productdetails/:id",
     },
   ];
 

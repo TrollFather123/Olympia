@@ -291,3 +291,28 @@ input[type="number"] {
 .errSpan {
   color: red;
 }
+
+
+.each_product{
+  box-shadow: 0 0 15px rgba(0,0,0,.15) !important;
+  border-radius: 15px !important;
+  overflow: hidden;
+}
+.each_product .product_content{
+  padding: 30px 15px;
+}
+
+.redirect_btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  background-color: #747ff4;
+  border: 1px solid #747ff4;
+  border-radius: 5px;
+  color: white;
+}
+.redirect_btn:hover{
+  color: #747ff4;
+  background-color: white;
+}

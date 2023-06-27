@@ -10,11 +10,11 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginChecker } from "../Validation/LoginChecker";
-import { useDispatch } from "react-redux";
-import { LoggedOut } from "../Redux/UserSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { CurrentUser, LoggedOut } from "../Redux/UserSlice";
 import styled from "@emotion/styled";
 
 
@@ -38,6 +38,16 @@ const HeaderWrapper = styled(Box)`
 export default function Header() {
   const naviagte = useNavigate();
   const dispatch = useDispatch()
+
+  const { userDetails } = useSelector((s) => s.user);
+  console.log(userDetails, "userDetails");
+
+
+  useEffect(() => {
+    dispatch(CurrentUser());
+  }, []);
+
+
   const HandleLoggedOut = () =>{
     dispatch(LoggedOut())
     naviagte("/signin")
@@ -62,6 +72,14 @@ export default function Header() {
             <ListItem disablePadding>
               <Link to={"/details"}>User Details</Link>
             </ListItem>
+            {
+              userDetails?.role === "admin" && (
+                <ListItem disablePadding>
+                <Link to={"/dashboard"}>Admin Panel</Link>
+              </ListItem>
+              )
+            }
+          
           </List>
           {LoginChecker() ? (
            

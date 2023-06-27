@@ -42,14 +42,7 @@ const ProductWrapper = styled(Box)`
   .filter_head:not(:last-child) {
       margin-right: 20px;
     }
-    .each_product{
-      box-shadow: 0 0 15px rgba(0,0,0,.15);
-      border-radius: 15px;
-      overflow: hidden;
-    }
-    .each_product .product_content{
-      padding: 30px 15px;
-    }
+
 `;
 
 export default function Products() {
