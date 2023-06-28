@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Wrapper from '../Layout/Wrapper'
 import { CreateCategorySchema } from '../Validation/Login.schema';
 import { useForm } from 'react-hook-form';
@@ -18,6 +18,7 @@ const FormWrapper = styled(Box)``;
 export default function CreateCategory() {
     const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [images, setImages] = useState([])
   const {
     handleSubmit,
     register,
@@ -29,9 +30,9 @@ export default function CreateCategory() {
   });
 
   const FormSubmit = (data) => {
-    dispatch(Createcategory(data))
+    dispatch(Createcategory({...data,images:images}))
       .unwrap()
-      .then((data) => {alert(data?.message);setTimeout(()=>{navigate("/signin")},4000)})
+      .then((data) => {data && alert("Category created successfully");setTimeout(()=>{navigate("/dashboard")},4000)})
       .catch((err) => alert(err?.message));
     reset();
   };
@@ -46,18 +47,18 @@ export default function CreateCategory() {
               <TextField
                 label=""
                 variant="outlined"
-                placeholder="Email"
-                type="email"
+                placeholder="name"
+              
                 fullWidth
-                {...register("email")}
+                {...register("name")}
               />
-              <ErrorText text={errors?.email?.message} />
+              <ErrorText text={errors?.name?.message} />
             </Box>
           </Grid>
           <Grid item xs={12}>
             <Box className="form_group">
-              
-              <ErrorText text={errors?.email?.message} />
+            <input type="file" onChange={(e)=>setImages("images",e.target.files[0])}/>
+              <ErrorText text={errors?.image?.message} />
             </Box>
           </Grid>
           <Grid item xs={12}>

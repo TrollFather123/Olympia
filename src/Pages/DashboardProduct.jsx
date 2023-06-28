@@ -21,8 +21,8 @@ import "slick-carousel/slick/slick.css";
 
 import "slick-carousel/slick/slick-theme.css";
 import { useDispatch, useSelector } from "react-redux";
-import { GetProduct } from "../Redux/ProductSlice";
-import { Link } from "react-router-dom";
+import { DeleteProduct, GetProduct } from "../Redux/ProductSlice";
+import { Link, useNavigate } from "react-router-dom";
 import RangeSlider from "../Component/ProductCard/RangeSlider/RangeSlider";
 import { FilterByAll } from "../Redux/FilterSlice";
 import { GetCategory } from "../Redux/CategorySlice";
@@ -50,6 +50,7 @@ export default function DashboardProduct() {
     autoPlay: true,
   };
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { productList } = useSelector((s) => s.product);
   const { filterProductList } = useSelector((s) => s.filters);
   const { categoryList } = useSelector((s) => s.category);
@@ -88,6 +89,8 @@ export default function DashboardProduct() {
     setValue(newValue);
     // dispatch(FilterByPriceRange(value));
   };
+
+
 
   return (
     <DashBoardWrapper>
@@ -195,6 +198,7 @@ export default function DashboardProduct() {
                     <Typography variant="h6">price is {data?.price}</Typography>
                     <Typography variant="body1">{data?.description}</Typography>
                     <Link to={`/dashboard/productdetails/${data?.id}`} className="redirect_btn">Edit Product</Link>
+                    <Button variant="contained" className="redirect_btn" onClick={()=>{dispatch(DeleteProduct(data?.id)).then(navigate("/dashboard/products"))}} sx={{}}>Delete Product</Button>
                   </Box>
                 </Paper>
               </Grid>

@@ -62,10 +62,10 @@ export const UpdateProduct = createAsyncThunk(
 );
 
 export const DeleteProduct = createAsyncThunk(
-  "deletproduct",
-  async (product, { getState, dispatch }) => {
+  "deleteproduct",
+  async (id, { getState, dispatch }) => {
     try {
-      const res = await axiosInstance.put(`/products/${getState()?.product?.productDetails?.id}`,product);
+      const res = await axiosInstance.delete(`/products/${id}`);
       return res;
     } catch (err) {
       throw err;
@@ -141,16 +141,13 @@ export const ProductSlice = createSlice({
         
          // Delete Product
 
-         .addCase(UpdateProduct.pending, (state, action) => {
+         .addCase(DeleteProduct.pending, (state, action) => {
           state.status = "pending";
         })
-        .addCase(UpdateProduct.fulfilled, (state, { payload }) => {
-            if(payload?.status === 201){
-              state.productDetails = payload?.data
-              state.status = "idle";
-            }
+        .addCase(DeleteProduct.fulfilled, (state, { payload }) => {
+          state.status = "idle";
         })
-        .addCase(UpdateProduct.rejected, (state, { payload }) => {
+        .addCase(DeleteProduct.rejected, (state, { payload }) => {
           state.status = "idle";
         });
   },
