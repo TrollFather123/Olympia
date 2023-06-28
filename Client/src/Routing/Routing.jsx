@@ -20,6 +20,7 @@ import DashboardProduct from "../Pages/DashboardProduct";
 import DashboardCategory from "../Pages/DashboardCategory";
 import CreateProduct from "../Pages/CreateProduct";
 import ProductDetails from "../Pages/ProductDetails";
+import CreateCategory from "../Pages/CreateCategory";
 
 export default function Routing() {
   const PublicRoutes = [
@@ -76,6 +77,10 @@ export default function Routing() {
     {
       name: <ProductDetails />,
       path: "/dashboard/productdetails/:id",
+    },
+    {
+      name: <CreateCategory />,
+      path: "/dashboard/createcategory",
     },
   ];
 

@@ -21,7 +21,7 @@ export const ForgetPasswordSchema = yup.object().shape({
 
 export const CreateCategorySchema = yup.object().shape({
     name:yup.string().trim().required(ValidationText?.error?.name),
-    image:yup.mixed().required(ValidationText?.error?.image)
+    // image:yup.mixed().required(ValidationText?.error?.image)
 })
 
 export const ProductSchema = yup.object().shape({

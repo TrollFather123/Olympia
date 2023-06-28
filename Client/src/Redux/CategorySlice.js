@@ -37,9 +37,9 @@ export const GetProductByCategory = createAsyncThunk(
 
   export const Createcategory = createAsyncThunk(
     "createcategory",
-    async (arg, { getState, dispatch }) => {
+    async (data, { getState, dispatch }) => {
       try {
-        const allCategory = await axiosInstance.post("/categories");
+        const allCategory = await axiosInstance.post("/categories",{...data,image:"https://fastly.picsum.photos/id/1065/640/640.jpg?hmac=k_bNRMiBlwjqhi5DQoR0u8IwkCDCWAv524qi0ZObXqU"});
         return allCategory;
       } catch (err) {
         throw err;

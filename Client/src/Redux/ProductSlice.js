@@ -145,10 +145,7 @@ export const ProductSlice = createSlice({
           state.status = "pending";
         })
         .addCase(DeleteProduct.fulfilled, (state, { payload }) => {
-            if(payload?.status === 201){
-              state.productDetails = payload?.data
-              state.status = "idle";
-            }
+          state.status = "idle";
         })
         .addCase(DeleteProduct.rejected, (state, { payload }) => {
           state.status = "idle";
