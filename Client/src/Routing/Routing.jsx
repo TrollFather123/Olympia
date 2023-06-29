@@ -21,6 +21,10 @@ import DashboardCategory from "../Pages/DashboardCategory";
 import CreateProduct from "../Pages/CreateProduct";
 import ProductDetails from "../Pages/ProductDetails";
 import CreateCategory from "../Pages/CreateCategory";
+import ChatBotDemo from "../Pages/ChatBotDemo";
+
+
+
 
 export default function Routing() {
   const PublicRoutes = [
@@ -81,6 +85,10 @@ export default function Routing() {
     {
       name: <CreateCategory />,
       path: "/dashboard/createcategory",
+    },
+    {
+      name: <ChatBotDemo/>,
+      path: "/chatbot",
     },
   ];
 

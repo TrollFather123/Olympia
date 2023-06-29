@@ -30,7 +30,7 @@ import {
   FilterByTitle,
 } from "../Redux/FilterSlice";
 import { GetCategory } from "../Redux/CategorySlice";
-import RangeSlider from "../Component/ProductCard/RangeSlider/RangeSlider";
+import RangeSlider from "../Component/RangeSlider/RangeSlider";
 
 const ProductWrapper = styled(Box)`
   .filter_head {

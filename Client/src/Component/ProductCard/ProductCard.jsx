@@ -1,10 +1,7 @@
 import React from 'react'
 
-export default function ProductCard({cardData}) {
-    
+export default function ProductCard() {
   return (
-    <div>
-      
-    </div>
+    <div>ProductCard</div>
   )
 }

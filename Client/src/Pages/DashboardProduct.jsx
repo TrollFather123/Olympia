@@ -23,7 +23,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteProduct, GetProduct } from "../Redux/ProductSlice";
 import { Link, useNavigate } from "react-router-dom";
-import RangeSlider from "../Component/ProductCard/RangeSlider/RangeSlider";
+import RangeSlider from "../Component/RangeSlider/RangeSlider";
 import { FilterByAll } from "../Redux/FilterSlice";
 import { GetCategory } from "../Redux/CategorySlice";
 import styled from "@emotion/styled";
