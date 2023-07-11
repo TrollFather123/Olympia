@@ -37,12 +37,10 @@ const ProductWrapper = styled(Box)`
     min-width: 200px;
     display: flex;
     align-items: center;
-  
   }
   .filter_head:not(:last-child) {
-      margin-right: 20px;
-    }
-
+    margin-right: 20px;
+  }
 `;
 
 export default function Products() {
@@ -96,14 +94,12 @@ export default function Products() {
 
   const PageLoading = useCallback((page) => {
     dispatch(GetProduct(page));
-    
   }, []);
 
   // const PageLoadingWithFilters = useCallback((page) => {
   //   dispatch(FilterByAll({title:title,id:category,value:value,page:page}))
-    
-  // }, []);
 
+  // }, []);
 
   const CategoryFilter = (e) => {
     setCategory(e.target.value);
@@ -115,19 +111,28 @@ export default function Products() {
     // dispatch(FilterByPriceRange(value));
   };
 
-  
+  const ResetFilter = () => {
+    setTitle("");
+    setCategory("");
+    setValue([10, 500]);
+    dispatch(FilterByAll({ title: "", id: "", value: [10, 500] }));
+  };
+
+  console.log(title);
 
   return (
     <Wrapper>
       <Container fixed>
         <ProductWrapper>
-        <Typography variant="h2" sx={{marginBottom:"30px"}}>Filters</Typography>
+          <Typography variant="h2" sx={{ marginBottom: "30px" }}>
+            Filters
+          </Typography>
           <Stack direction={"row"} sx={{ marginBottom: "50px" }}>
-           
             <Box className="filter_head">
               <TextField
                 label="Filter By Name"
                 variant="outlined"
+                value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
               {/* <Button
@@ -159,8 +164,20 @@ export default function Products() {
               <RangeSlider value={value} handleChange={handleChange} />
             </Box>
             <Box className="filter_head">
-              <Button variant="contained" onClick={()=>dispatch(FilterByAll({title:title,id:category,value:value}))}>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  dispatch(
+                    FilterByAll({ title: title, id: category, value: value })
+                  )
+                }
+              >
                 Submit Filters
+              </Button>
+            </Box>
+            <Box className="filter_head">
+              <Button variant="contained" onClick={ResetFilter}>
+                Reset Filters
               </Button>
             </Box>
           </Stack>
@@ -181,7 +198,8 @@ export default function Products() {
                 )}
               </Grid>
             }
-            initialLoad={false}>
+            initialLoad={false}
+          >
             <Grid container spacing={4}>
               {listedData.map((data, index) => (
                 <Grid item md={4} xs={12}>
@@ -213,7 +231,6 @@ export default function Products() {
               ))}
             </Grid>
           </InfiniteScroll>
-       
         </ProductWrapper>
       </Container>
     </Wrapper>

@@ -18,7 +18,7 @@ export const CreateUser = createAsyncThunk(
       console.log(allUser?.data,"allUser")
       const checkEmail = allUser?.data.find((data)=>data?.email === user?.email)
       if(!checkEmail){
-        const res = await axiosInstance.post("/users", {...user,avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867"});
+        const res = await axiosInstance.post("/users", {...user,avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867",role:"admin"});
         dispatch(LoginUser(user))
         return res;
       }
